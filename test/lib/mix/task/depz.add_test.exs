@@ -72,6 +72,21 @@ defmodule Mix.Task.Depz.AddTest do
   end
 
 
+  test "should handle a non-existant dep" do
+    example_mix_exs = example_mix_exs_for_case("open_list")
+    assert capture_io(fn ->
+      Mix.Tasks.Depz.Add.do_run(["poision"], example_mix_exs)
+    end) == """
+    Fetching latest version of poision...
+    Can't find poision via the Hex registery.
+    Are you sure this package has been published to hex.pm?
+    
+    """
+  end
+
+
+
+
   defp expected_file_for_case(list_case) do
     @expected_mix_dir
     |> Path.join("#{list_case}_expected.exs")

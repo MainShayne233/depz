@@ -29,9 +29,14 @@ defmodule Depz.Version do
 
   defp get_latest_version(dep_name) do
     IO.puts "Fetching latest version of " <> dep_name <> "..."
-    with {:ok, [latest_version | _rest]} <- versions(dep_name) do
-      IO.puts "Latest version is #{latest_version}!"
-      {:ok, latest_version}
+    dep_name
+    |> versions
+    |> case do
+       {:ok, [latest_version | _rest]} ->
+         IO.puts "Latest version is #{latest_version}!"
+         {:ok, latest_version}
+       {:error, :not_found} ->
+         {:error, dep_not_found_error(dep_name)}
     end
   end
 
@@ -49,5 +54,13 @@ defmodule Depz.Version do
 
       {:ok, versions}
     end
+  end
+
+
+  defp dep_not_found_error(dep_name) do
+    """
+    Can't find #{dep_name} via the Hex registery.
+    Are you sure this package has been published to hex.pm?
+    """
   end
 end
