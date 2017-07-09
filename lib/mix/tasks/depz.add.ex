@@ -21,6 +21,9 @@ defmodule Mix.Tasks.Depz.Add do
          {:ok, updated_file} <- do_run(args, mix_exs) do
 
       File.write!("mix.exs", updated_file)
+    else
+      {:error, error} ->
+        Mix.Shell.IO.error("Something went wrong: #{inspect error}")
     end
   end
 
