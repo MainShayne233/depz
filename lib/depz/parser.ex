@@ -30,6 +30,24 @@ defmodule Depz.Parser do
   end
 
 
+  @doc """
+  Returns the spacing used for the mix.exs file
+  """
+  @spec parse_spacing(String.t) :: {:ok, number} | {:error, String.t}
+  def parse_spacing(file) do
+    with {:ok, deps_start_index.._deps_end_index} <- deps_range(file) do
+      spaces =
+        file
+        |> String.split("\n")
+        |> Enum.at(deps_start_index)
+        |> String.split("defp")
+        |> Enum.at(0)
+        |> String.length
+      {:ok, spaces}
+    end
+  end
+
+
   defp check_for_empty_list_case(file) do
     file
     |> String.split("\n")
@@ -78,7 +96,7 @@ defmodule Depz.Parser do
   end
 
 
-  defp deps_range(file) do
+  def deps_range(file) do
     lines = file |> String.split("\n")
     with {:ok, start_index} <- find_matching_line(lines, deps_start_matchers()),
          {:ok, end_index} <- find_matching_line(lines, deps_end_matcher(), start_index) do
@@ -128,5 +146,4 @@ defmodule Depz.Parser do
       String.replace(line, " ", "") == "end"
     end
   end
-
 end

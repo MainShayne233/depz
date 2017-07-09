@@ -4,7 +4,7 @@ defmodule Depz.ParserTest do
 
 
   describe("parse_deps/1") do
-    test "should return a list of the deps" do
+    test "should return a list of the deps for a variety of deps" do
       {:ok, deps} =
         variety_of_deps_file()
         |> Parser.parse_deps
@@ -54,6 +54,17 @@ defmodule Depz.ParserTest do
   end
 
 
+  describe "parse_spacing/1" do
+    test "should return the correct amount of spaces for the dependencies" do
+      {:ok, spacing} =
+        open_list_case_file()
+        |> Parser.parse_spacing
+
+      assert spacing == 2
+    end
+  end
+
+
   defp variety_of_deps_file do
     """
       defmodule Depz.Mixfile do
@@ -82,7 +93,7 @@ defmodule Depz.ParserTest do
 
             # Docs dependencies
             {:ex_doc, "~> 0.16", only: :docs},
-            {:inch_ex, "~> 0.2", only: :docs},
+            {:inch_ex, "~> 0.2", only: :docs}, # what is this even for?
             {:phoenix_guides, git: "https://github.com/phoenixframework/phoenix_guides.git", compile: false, app: false, only: :docs},
             # Test dependencies
             {:phoenix_html, "~> 2.6", only: :test},
@@ -150,30 +161,30 @@ defmodule Depz.ParserTest do
 
   defp open_list_case_file do
     """
-      defmodule Depz.Mixfile do
-        use Mix.Project
+    defmodule Depz.Mixfile do
+      use Mix.Project
 
-        def project do
-          [app: :depz,
-           version: "0.1.0",
-           elixir: "~> 1.4",
-           build_embedded: Mix.env == :prod,
-           start_permanent: Mix.env == :prod,
-           deps: deps()]
-        end
-
-        def application do
-          [extra_applications: [:logger]]
-        end
-
-        defp deps do
-          [
-            {:dep1, "~> 1.2"},
-            {:dep2, "~> 1.4"},
-            {:dep3, "~> 1.5"}
-          ]
-        end
+      def project do
+        [app: :depz,
+         version: "0.1.0",
+         elixir: "~> 1.4",
+         build_embedded: Mix.env == :prod,
+         start_permanent: Mix.env == :prod,
+         deps: deps()]
       end
+
+      def application do
+        [extra_applications: [:logger]]
+      end
+
+      defp deps do
+        [
+          {:dep1, "~> 1.2"},
+          {:dep2, "~> 1.4"},
+          {:dep3, "~> 1.5"}
+        ]
+      end
+    end
     """
   end
 end
