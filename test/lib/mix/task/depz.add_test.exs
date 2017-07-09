@@ -30,8 +30,8 @@ defmodule Mix.Task.Depz.AddTest do
       assert mix_exs == expected_file_for_case("open_list")
     end) == """
     Fetching latest version of httpotion...
-    Latest version is 3.0.2!
-    Added {:httpotion, "~> 3.0.2"} to mix.exs
+    Latest version is 3.1.0!
+    Added {:httpotion, "~> 3.1.0"} to mix.exs
     """
   end
 
@@ -43,8 +43,8 @@ defmodule Mix.Task.Depz.AddTest do
       assert mix_exs == expected_file_for_case("empty_list")
     end) == """
     Fetching latest version of httpotion...
-    Latest version is 3.0.2!
-    Added {:httpotion, "~> 3.0.2"} to mix.exs
+    Latest version is 3.1.0!
+    Added {:httpotion, "~> 3.1.0"} to mix.exs
     """
   end
 
@@ -56,8 +56,8 @@ defmodule Mix.Task.Depz.AddTest do
       assert mix_exs == expected_file_for_case("closed_list")
     end) == """
     Fetching latest version of httpotion...
-    Latest version is 3.0.2!
-    Added {:httpotion, "~> 3.0.2"} to mix.exs
+    Latest version is 3.1.0!
+    Added {:httpotion, "~> 3.1.0"} to mix.exs
     """
   end
 

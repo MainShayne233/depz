@@ -7,10 +7,10 @@ defmodule Depz.VersionTest do
 
     test "should return the latest version when version not specified" do
       assert capture_io(fn ->
-        assert Version.get_version("httpotion") == {:ok, "3.0.2"}
+        assert Version.get_version("httpotion") == {:ok, "3.1.0"}
       end) == """
       Fetching latest version of httpotion...
-      Latest version is 3.0.2!
+      Latest version is 3.1.0!
       """
     end
 
