@@ -30,6 +30,8 @@ mix depz.add httpotion
 mix depz.add httpotion -v 3.0.1
 ```
 
+If you don't specify the version, it defaults to the latest version from [hex.pm](https://hex.pm)
+
 ## Dependency List Style
 
 Elixir allows you to define your dependency list in `mix.exs` with whatever style you want, like
@@ -50,4 +52,3 @@ or
 ```
 
 This tool tries to identify what style you are using and maintain it when adding a new dependency.
-
