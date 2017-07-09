@@ -1,19 +1,53 @@
 # Depz
 
-**TODO: Add description**
+Command line tools for mix dependencies
 
-## Installation
+## Current State
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `depz` to your list of dependencies in `mix.exs`:
+Though functional, this tool is still in early development.
 
-```elixir
-def deps do
-  [{:depz, "~> 0.1.0"}]
-end
+Since it writes to disk, it can literally wipe out any important information/data
+you may have in your `mix.exs` file, so proceed with absolute caution.
+
+
+## Install
+
+This is a package you install globally on your machine using `mix archive.install`, like so:
+
+```bash
+mix archive.install github MainShayne233/depz
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/depz](https://hexdocs.pm/depz).
+## Usage
+
+To add a dependency to your `mix.exs` file, from your app's directory run:
+
+```bash
+mix depz.add httpotion
+
+# or for a specific version
+
+mix depz.add httpotion -v 3.0.1
+```
+
+## Dependency List Style
+
+Elixir allows you to define your dependency list in `mix.exs` with whatever style you want, like
+```
+[{:httpotion, "~> 3.0.2"},
+ {:phoenix, "~> 1.3"},
+ {:calendar, "~> 1.2.3"}]
+```
+
+or
+
+```
+[
+  {:httpotion, "~> 3.0.2"},
+  {:phoenix, "~> 1.3"},
+  {:calendar, "~> 1.2.3"},
+]
+```
+
+This tool tries to identify what style you are using and maintain it when adding a new dependency.
 
