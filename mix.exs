@@ -9,6 +9,7 @@ defmodule Depz.Mixfile do
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
+      package: package(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         "coveralls": :test,
@@ -19,9 +20,18 @@ defmodule Depz.Mixfile do
     ]
   end
 
+
   def application do
     [extra_applications: [:logger]]
   end
+
+
+  defp package do
+    [
+      files: ["lib", "deps"],
+    ]
+  end
+
 
   defp deps do
     [
