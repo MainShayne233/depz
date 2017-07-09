@@ -2,6 +2,10 @@
 
 Command line tools for mix dependencies
 
+[![Build Status](https://travis-ci.org/MainShayne233/depz.svg?branch=master)](https://travis-ci.org/MainShayne233/depz)
+[![Code Climate](https://codeclimate.com/github/MainShayne233/depz/badges/gpa.svg)](https://codeclimate.com/github/MainShayne233/depz)
+
+
 ## Current State
 
 Though functional, this tool is still in early development.
