@@ -17,6 +17,7 @@ defmodule Mix.Tasks.Depz.Add do
 
   def run(args) do
     with {:ok, mix_exs} <- File.read("./mix.exs") do
+      :inets.start()
       updated_file = do_run(args, mix_exs)
       File.write!("mix.exs", updated_file)
     end
