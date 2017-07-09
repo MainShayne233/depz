@@ -22,14 +22,13 @@ defmodule Depz.Mixfile do
 
   def application do
     [
-      extra_applications: [:logger, :httpc]
+      extra_applications: [:logger]
     ]
   end
 
 
   defp deps do
     [
-      {:poison, "~> 3.1.0"},
       {:mix_test_watch, "~> 0.4.1", [only: :dev, runtime: false]},
       {:excoveralls, "~> 0.7.1", [only: :test]},
     ]

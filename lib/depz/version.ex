@@ -40,12 +40,13 @@ defmodule Depz.Version do
     url = (@hex_path <>  "/" <> dep_name)
     with {:ok, response} <- HTTP.get(url) do
       versions =
-        response
-        |> Poison.decode!
-        |> Map.get("releases")
-        |> Enum.map(fn %{"version" => version} -> version end)
-        |> Enum.sort
-        |> Enum.reverse
+        ~r/"version":("\d\.\d\.\d")/
+        |> Regex.scan(response, capture: :all_but_first)
+        |> Enum.map(fn [version] ->
+          version |> String.replace("\"", "")
+        end)
+        |> Enum.sort(&(&1 >= &2))
+
       {:ok, versions}
     end
   end
