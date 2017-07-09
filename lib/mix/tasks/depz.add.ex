@@ -3,6 +3,7 @@ defmodule Mix.Tasks.Depz.Add do
   alias Depz.{Parser, Version}
 
   def run([]) do
+    Mix.Task.run("app.start", [])
     Mix.Shell.IO.info """
     Usage:
 
