@@ -46,9 +46,14 @@ defmodule Mix.Tasks.Depz.Add do
         |> Enum.slice(deps_end_index..-1)
         |> Enum.join("\n")
 
-      file = (first_chunk <> "\n" <> deps_string <> "\n" <> last_chunk)
-      IO.puts file
-      file
+      Mix.Shell.IO.info("Added #{inspect(new_dep)} to mix.exs")
+
+      [
+        first_chunk,
+        deps_string,
+        last_chunk,
+      ]
+      |> Enum.join("\n")
     end
   end
 

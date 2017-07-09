@@ -4,10 +4,12 @@ defmodule Mix.Task.Depz.AddTest do
   @example_mix_dir "./test/support/mix_exs_examples/examples"
   @expected_mix_dir "./test/support/mix_exs_examples/expected"
 
+  import ExUnit.CaptureIO
+
 
   test "should provide a usage prompt when run with no args" do
     assert ExUnit.CaptureIO.capture_io(fn ->
-      Mix.Tasks.Depz.Add.do_run([])
+      Mix.Tasks.Depz.Add.run([])
     end) == """
     Usage:
 
@@ -23,15 +25,27 @@ defmodule Mix.Task.Depz.AddTest do
 
   test "should add dependency to mix_exs file for the open list case" do
     example_mix_exs = example_mix_exs_for_case("open_list")
-    mix_exs = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
-    assert mix_exs == expected_file_for_case("open_list")
+    assert capture_io(fn ->
+      mix_exs = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
+      assert mix_exs == expected_file_for_case("open_list")
+    end) == """
+    Fetching latest version of httpotion...
+    Latest version is 3.0.2!
+    Added {:httpotion, "~> 3.0.2"} to mix.exs
+    """
   end
 
 
   test "should add dependency to mix_exs file for the empty list case" do
     example_mix_exs = example_mix_exs_for_case("empty_list")
-    mix_exs = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
-    assert mix_exs == expected_file_for_case("empty_list")
+    assert capture_io(fn ->
+      mix_exs = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
+      assert mix_exs == expected_file_for_case("empty_list")
+    end) == """
+    Fetching latest version of httpotion...
+    Latest version is 3.0.2!
+    Added {:httpotion, "~> 3.0.2"} to mix.exs
+    """
   end
 
 
@@ -39,6 +53,16 @@ defmodule Mix.Task.Depz.AddTest do
     example_mix_exs = example_mix_exs_for_case("closed_list")
     mix_exs = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
     assert mix_exs == expected_file_for_case("closed_list")
+  end
+
+
+  test "should let user specify version of dep with -v flag" do
+    example_mix_exs = example_mix_exs_for_case("open_list")
+    assert capture_io(fn ->
+      Mix.Tasks.Depz.Add.do_run(["httpotion", "-v", "3.0.0"], example_mix_exs)
+    end) == """
+    Added {:httpotion, "~> 3.0.0"} to mix.exs
+    """
   end
 
 
