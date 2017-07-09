@@ -16,9 +16,10 @@ defmodule Mix.Tasks.Depz.Add do
 
 
   def run(args) do
-    with {:ok, mix_exs} <- File.read("./mix.exs") do
-      :inets.start()
-      updated_file = do_run(args, mix_exs)
+    :inets.start()
+    with {:ok, mix_exs} <- File.read("./mix.exs"),
+         {:ok, updated_file} <- do_run(args, mix_exs) do
+
       File.write!("mix.exs", updated_file)
     end
   end
@@ -49,12 +50,15 @@ defmodule Mix.Tasks.Depz.Add do
 
       Mix.Shell.IO.info("Added #{inspect(new_dep)} to mix.exs")
 
-      [
-        first_chunk,
-        deps_string,
-        last_chunk,
-      ]
-      |> Enum.join("\n")
+      file =
+        [
+          first_chunk,
+          deps_string,
+          last_chunk,
+        ]
+        |> Enum.join("\n")
+
+      {:ok, file}
     end
   end
 

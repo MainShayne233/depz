@@ -26,7 +26,7 @@ defmodule Mix.Task.Depz.AddTest do
   test "should add dependency to mix_exs file for the open list case" do
     example_mix_exs = example_mix_exs_for_case("open_list")
     assert capture_io(fn ->
-      mix_exs = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
+      {:ok, mix_exs} = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
       assert mix_exs == expected_file_for_case("open_list")
     end) == """
     Fetching latest version of httpotion...
@@ -39,7 +39,7 @@ defmodule Mix.Task.Depz.AddTest do
   test "should add dependency to mix_exs file for the empty list case" do
     example_mix_exs = example_mix_exs_for_case("empty_list")
     assert capture_io(fn ->
-      mix_exs = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
+      {:ok, mix_exs} = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
       assert mix_exs == expected_file_for_case("empty_list")
     end) == """
     Fetching latest version of httpotion...
@@ -52,7 +52,7 @@ defmodule Mix.Task.Depz.AddTest do
   test "should add dependency to mix_exs file for the closed list case" do
     example_mix_exs = example_mix_exs_for_case("closed_list")
     assert capture_io(fn ->
-      mix_exs = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
+      {:ok, mix_exs} = Mix.Tasks.Depz.Add.do_run(["httpotion"], example_mix_exs)
       assert mix_exs == expected_file_for_case("closed_list")
     end) == """
     Fetching latest version of httpotion...
