@@ -3,7 +3,8 @@ defmodule Depz.Util.HTTP do
   @adapter if Mix.env == :test, do: __MODULE__.TestAdapter, else: __MODULE__.HTTPAdapter
 
   def get(url) do
-    with %Tesla.Env{body: body, status: 200} <- @adapter.get(url) do
+    with true <- Code.ensure_loaded?(Tesla),
+         %Tesla.Env{body: body, status: 200} <- @adapter.get(url) do
       {:ok, body}
     end
   end
