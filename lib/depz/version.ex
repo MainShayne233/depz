@@ -29,7 +29,8 @@ defmodule Depz.Version do
 
   defp get_latest_version(dep_name) do
     IO.puts "Fetching latest version of " <> dep_name <> "..."
-    with {:ok, [latest_version | _rest]} <- versions(dep_name) do
+    with {:ok, _started} <- Application.ensure_all_started(:httpoison),
+         {:ok, [latest_version | _rest]} <- versions(dep_name) do
       IO.puts "Latest version is #{latest_version}!"
       {:ok, latest_version}
     end
