@@ -26,6 +26,7 @@ defmodule Depz.Mixfile do
   defp deps do
     [
       {:poison, "~> 3.1.0"},
+      {:httpoison, "~> 0.12.0"},
       {:mix_test_watch, "~> 0.4.1", [only: :dev, runtime: false]},
       {:excoveralls, "~> 0.7.1", [only: :test]},
     ]
