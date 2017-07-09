@@ -11,8 +11,10 @@ defmodule Depz.Util.HTTP do
   defmodule HTTPAdapter do
 
     def get(url) do
-      url = String.to_charlist(url)
-      :httpc.request(:get, {url, [{'User-Agent', 'httpc'}]}, [], [])
+      with :ok <- :ssl.start() do
+        url = String.to_charlist(url)
+        :httpc.request(:get, {url, [{'User-Agent', 'httpc'}]}, [], [])
+      end
     end
   end
 
