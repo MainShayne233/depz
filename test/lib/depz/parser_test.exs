@@ -35,12 +35,12 @@ defmodule Depz.ParserTest do
     end
 
 
-    test "should identify the collapsed_list case" do
+    test "should identify the closed_list case" do
       {:ok, deps_case} =
-        collapsed_list_case_file()
+        closed_list_case_file()
         |> Parser.parse_case
 
-      assert deps_case == :collapsed_list
+      assert deps_case == :closed_list
     end
 
 
@@ -131,7 +131,7 @@ defmodule Depz.ParserTest do
   end
 
 
-  defp collapsed_list_case_file do
+  defp closed_list_case_file do
     """
       defmodule Depz.Mixfile do
         use Mix.Project

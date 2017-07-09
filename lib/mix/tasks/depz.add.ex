@@ -15,9 +15,16 @@ defmodule Mix.Tasks.Depz.Add do
   end
 
 
-  def run([dep_name | options]) do
-    with {:ok, mix_exs} <- File.read("./mix.exs"),
-         {:ok, list_case} <- Parser.parse_case(mix_exs),
+  def run(args) do
+    with {:ok, mix_exs} <- File.read("./mix.exs") do
+      updated_file = do_run(args, mix_exs)
+      File.write!("mix.exs", updated_file)
+    end
+  end
+
+
+  def do_run([dep_name | options], mix_exs) do
+    with {:ok, list_case} <- Parser.parse_case(mix_exs),
          {:ok, spacing} <- Parser.parse_spacing(mix_exs),
          {:ok, deps} <- Parser.parse_deps(mix_exs),
          {:ok, deps_start_index..deps_end_index} <- Parser.deps_range(mix_exs),
@@ -39,10 +46,9 @@ defmodule Mix.Tasks.Depz.Add do
         |> Enum.slice(deps_end_index..-1)
         |> Enum.join("\n")
 
-       updated_mix_exs =
-         (first_chunk <> "\n" <> deps_string <> "\n" <> last_chunk)
-
-       File.write!("./mix.exs", updated_mix_exs)
+      file = (first_chunk <> "\n" <> deps_string <> "\n" <> last_chunk)
+      IO.puts file
+      file
     end
   end
 
@@ -53,16 +59,29 @@ defmodule Mix.Tasks.Depz.Add do
   end
 
 
-  defp deps_list_string([first_dep | deps], spacing, :collapsed_list) do
-    {last_dep, mid_deps} = deps |> List.pop_at(-1)
-    mid_deps_string =
-      mid_deps
-      |> Enum.join(",\n")
-    """
-    [#{first_dep},
-     #{mid_deps_string}
-     #{last_dep}]
-    """
+  defp deps_list_string(deps, spacing, :closed_list) do
+    [first_dep | deps] = deps
+    {last_dep, deps} = deps |> List.pop_at(-1)
+
+    string_deps =
+      deps
+      |> Enum.map(fn dep ->
+        "\n" <> String.duplicate(" ", 2 * spacing + 1) <> inspect(dep) <> ","
+      end)
+      |> Enum.join("\n")
+
+    [
+      String.duplicate(" ", 2 * spacing),
+      "[",
+      inspect(first_dep),
+      ",",
+      string_deps,
+      "\n",
+      String.duplicate(" ", 2 * spacing + 1),
+      inspect(last_dep),
+      "]"
+    ]
+    |> Enum.join
   end
 
 

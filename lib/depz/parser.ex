@@ -55,18 +55,18 @@ defmodule Depz.Parser do
     |> String.replace(" ", "")
     |> case do
       "[]" -> {:ok, :empty_list}
-      _other -> check_for_collapsed_list_case(file)
+      _other -> check_for_closed_list_case(file)
     end
   end
 
 
-  defp check_for_collapsed_list_case(file) do
+  defp check_for_closed_list_case(file) do
     file
     |> String.split("\n")
     |> Enum.at(1)
     |> Kernel.=~(~r/\[\s*{.*}/)
     |> case do
-      true -> {:ok, :collapsed_list}
+      true -> {:ok, :closed_list}
       false -> check_for_open_list_case(file)
     end
   end

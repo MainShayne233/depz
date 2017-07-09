@@ -18,6 +18,7 @@ defmodule Depz.Mixfile do
     [
       {:poison, "~> 3.1.0"},
       {:mix_test_watch, "~> 0.4.1"},
+      {:httpotion, "~> 3.0.2"},
     ]
   end
 end

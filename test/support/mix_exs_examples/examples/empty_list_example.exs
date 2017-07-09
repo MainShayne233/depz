@@ -15,9 +15,6 @@ defmodule Depz.Mixfile do
   end
 
   defp deps do
-    [
-      {:poison, "~> 3.1.0"},
-      {:mix_test_watch, "~> 0.4.1"},
-    ]
+    []
   end
 end
